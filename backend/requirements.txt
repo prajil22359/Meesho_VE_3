@@ -1,0 +1,11 @@
+django
+djangorestframework
+pillow
+torch
+torchvision
+numpy
+python-dotenv
+pandas
+pyarrow
+fastparquet
+django-cors-headers
