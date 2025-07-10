@@ -1,28 +1,31 @@
-import json
 import uuid
 import os
+import json
+from .meesho_model import ModelPredictor
+
+predictor = ModelPredictor()
 
 class FashionClassifier:
     def __init__(self):
-        pass  # Nothing to load for now
+        pass
 
     def predict(self, image_path):
-        # Instead of real model, return dummy data
-        prediction = {
-            "color": "1",
-            "pattern": "1",
-            "category": "1",
-            "confidence": "1"
+        prediction = predictor.predict_image(image_path)
+
+        # Only keep category and attributes
+        result = {
+            "category": prediction["category"],
+            "attributes": prediction["attributes"]
         }
 
-        # Save output to JSON file
-        output_filename = f"prediction_{uuid.uuid4().hex}.json"
-        output_path = os.path.join("predictions", output_filename)
+        # Save clean JSON
+        output_dir = "predictions"
+        os.makedirs(output_dir, exist_ok=True)
 
-        # Make sure the folder exists
-        os.makedirs("predictions", exist_ok=True)
+        output_filename = f"prediction_{uuid.uuid4().hex}.json"
+        output_path = os.path.join(output_dir, output_filename)
 
         with open(output_path, "w") as f:
-            json.dump(prediction, f)
+            json.dump(result, f, indent=2)
 
-        return prediction, output_path
+        return result, output_path

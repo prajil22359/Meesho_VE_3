@@ -10,7 +10,6 @@ interface ResultsSectionProps {
   selectedImageIndex: number;
   onImageSelect: (index: number) => void;
   onDownloadPDF: () => void;
-  onDownloadCSV: () => void;
   onStartNew: () => void;
 }
 
@@ -19,7 +18,6 @@ const ResultsSection = ({
   selectedImageIndex, 
   onImageSelect, 
   onDownloadPDF, 
-  onDownloadCSV, 
   onStartNew 
 }: ResultsSectionProps) => {
   return (
@@ -46,14 +44,6 @@ const ResultsSection = ({
         >
           <FileText className="h-4 w-4 mr-2" />
           Download Report (PDF)
-        </Button>
-        <Button
-          onClick={onDownloadCSV}
-          variant="outline"
-          className="border-purple-300 text-purple-600 hover:bg-purple-50 rounded-lg"
-        >
-          <Download className="h-4 w-4 mr-2" />
-          Download CSV
         </Button>
       </div>
 

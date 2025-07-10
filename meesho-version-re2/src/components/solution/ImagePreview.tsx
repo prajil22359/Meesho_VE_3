@@ -63,7 +63,7 @@ const ImagePreview = ({ prediction, predictions, selectedImageIndex, onImageSele
               {prediction.name}
             </h3>
             <div className="flex items-center justify-between">
-              <div className="flex items-center flex-1">
+              {/* <div className="flex items-center flex-1">
                 <span className="text-sm text-gray-600 mr-2">Confidence:</span>
                 <div className="flex-1 bg-purple-200 rounded-full h-2 mr-3">
                   <div
@@ -74,7 +74,7 @@ const ImagePreview = ({ prediction, predictions, selectedImageIndex, onImageSele
                 <span className="text-sm font-bold text-purple-600">
                   {(prediction.confidence * 100).toFixed(1)}%
                 </span>
-              </div>
+              </div> */}
               <span className="text-sm text-gray-500 ml-4">
                 {selectedImageIndex + 1} of {predictions.length}
               </span>
