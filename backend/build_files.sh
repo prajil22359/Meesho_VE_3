@@ -1,3 +1,3 @@
 pip install -r requirements.txt
 
-python3 manage.py collectstatic
+python backend/manage.py migrate
