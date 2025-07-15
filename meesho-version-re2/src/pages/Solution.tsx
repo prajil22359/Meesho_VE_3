@@ -152,6 +152,7 @@ import SolutionHero from "@/components/solution/SolutionHero";
 import FileUploadSection from "@/components/solution/FileUploadSection";
 import LoadingAnimation from "@/components/solution/LoadingAnimation";
 import ResultsSection from "@/components/solution/ResultsSection";
+import.meta.env.VITE_API_URL;
 
 const Solution = () => {
   const [uploadedImages, setUploadedImages] = useState<File[]>([]);
@@ -193,9 +194,10 @@ const Solution = () => {
     });
 
     try {
-      const res = await fetch("http://localhost:8000/api/predict/", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/predict/`, {
         method: "POST",
         body: formData,
+        credentials: "include", // to handle sessions!
       });
 
       const data = await res.json();
@@ -204,11 +206,10 @@ const Solution = () => {
       const newPredictions: PredictionResult[] = data.predictions.map((item: any) => ({
         id: Date.now() + Math.random(),
         name: item.filename,
-        imageUrl: `http://localhost:8000/media/${item.filepath}`,
+        imageUrl: `${import.meta.env.VITE_API_URL}/media/${item.filepath}`,
         category: item.prediction.category,
         attributes: item.prediction.attributes,
       }));
-
 
       setPredictions(newPredictions);
       setSelectedImageIndex(0);
@@ -234,13 +235,15 @@ const Solution = () => {
   useEffect(() => {
     const loadPreviousPredictions = async () => {
       try {
-        const res = await fetch("http://localhost:8000/api/session-predictions/");
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/session-predictions/`, {
+          credentials: "include",
+        });
         const data = await res.json();
 
         const loadedPredictions: PredictionResult[] = data.predictions.map((item: any) => ({
           id: Date.now() + Math.random(),
           name: item.filename,
-          imageUrl: `http://localhost:8000/media/${item.filepath}`,
+          imageUrl: `${import.meta.env.VITE_API_URL}/media/${item.filepath}`,
           category: item.prediction.category,
           attributes: item.prediction.attributes,
         }));
@@ -250,6 +253,7 @@ const Solution = () => {
         console.error("Error loading previous predictions:", error);
       }
     };
+
 
     loadPreviousPredictions();
   }, []);
