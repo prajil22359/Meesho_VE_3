@@ -1,18 +1,23 @@
 import uuid
 import os
 import json
-from .meesho_model import ModelPredictor
-
-predictor = ModelPredictor()
 
 class FashionClassifier:
     def __init__(self):
-        pass
+        # Do not create ModelPredictor here to save memory
+        self.predictor = None
 
     def predict(self, image_path):
-        prediction = predictor.predict_image(image_path)
+        # Lazy import
+        from .meesho_model import ModelPredictor
 
-        # Only keep category and attributes
+        # Initialize predictor only when first used
+        if self.predictor is None:
+            self.predictor = ModelPredictor()
+
+        prediction = self.predictor.predict_image(image_path)
+
+        # Keep only category and attributes
         result = {
             "category": prediction["category"],
             "attributes": prediction["attributes"]
